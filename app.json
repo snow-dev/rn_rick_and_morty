@@ -1,0 +1,8 @@
+{
+    "name": "RickAndMorty",
+    "displayName": "RickAndMorty",
+    "version": "1.0.0",
+    "description": "Rick and Morty",
+    "main": "index.js",
+    "icon": "./resources/dev_app.jpg"
+}
