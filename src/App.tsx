@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Image,
   SafeAreaView,
   ScrollView,
   Text,
@@ -10,11 +9,9 @@ import {
 import tw from 'twrnc';
 
 import {useGetCharactersQuery} from './services/character';
-import {ButtonProps} from './services/types';
-
-const Avatar = ({src}: {src: string}) => {
-  return <Image style={styles.avatar} source={{uri: src}} />;
-};
+import {ButtonProps, DetailScreenNavigationProp} from './services/types';
+import {useNavigation} from '@react-navigation/native';
+import ImageEl from './elements/Image';
 
 const Button = ({title, onPress}: ButtonProps) => {
   return (
@@ -27,6 +24,7 @@ const Button = ({title, onPress}: ButtonProps) => {
 };
 
 function App(): JSX.Element {
+  const navigation = useNavigation<DetailScreenNavigationProp>();
   const {data, error, isLoading} = useGetCharactersQuery();
 
   return (
@@ -38,11 +36,11 @@ function App(): JSX.Element {
       <ScrollView>
         <View style={tw`p-1 android:pt-1 bg-white dark:bg-black`}>
           {isLoading && <Text>Loading...</Text>}
-          {error && <Text>Somethig went worn, try again!</Text>}
+          {error && <Text>Something went worn, try again!</Text>}
           {data?.results.map((item, index) => (
-            <View style={styles.itemGrid}>
+            <View key={index - Date.now()} style={styles.itemGrid}>
               <View style={tw`flex-row items-center`}>
-                <Avatar src={item.image} />
+                <ImageEl variant="avatar" source={item.image} />
                 <Text key={index} style={styles.textName}>
                   {item.name}
                 </Text>
@@ -79,8 +77,12 @@ function App(): JSX.Element {
                   Location: {item.location.name}
                 </Text>
               </View>
+
               <View style={tw`flex-row justify-end mt-5 mb-4 mr-4`}>
-                <Button title={'Show details'} onPress={() => null} />
+                <Button
+                  title={'Show details'}
+                  onPress={() => navigation.navigate('Details', {id: item.id})}
+                />
               </View>
             </View>
           ))}

@@ -1,11 +1,21 @@
-interface Info {
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+
+export interface EpisodeItem {
+  id: number;
+  url: string;
+}
+
+export interface Info {
   count: number;
   pages: number;
   next: string;
   prev: string;
 }
 
-interface Result {
+export interface Character {
   id: number;
   name: string;
   status: string;
@@ -21,12 +31,15 @@ interface Result {
     url: string;
   };
   image: string;
-  episode: string[];
+  episode?: string[];
+  episodes?: EpisodeItem[];
   url: string;
   created: string;
 }
 
-export interface Character {
+export interface Result extends Character {}
+
+export interface Characters {
   info: Info;
   results: Result[];
 }
@@ -35,3 +48,31 @@ export interface ButtonProps {
   title: string;
   onPress: () => void;
 }
+
+export type RootStackParamList = {
+  App: undefined;
+  Details: {id: number};
+  Episodes: {
+    episodes?: EpisodeItem[];
+  };
+};
+
+export type DetailScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Details'
+>;
+
+export type DetailScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Details'
+>;
+
+export type EpisodesScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Episodes'
+>;
+
+export type EpisodesScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Episodes'
+>;
