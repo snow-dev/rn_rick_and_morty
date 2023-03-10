@@ -1,118 +1,109 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
+  Image,
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import tw from 'twrnc';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {useGetCharactersQuery} from './services/character';
+import {ButtonProps} from './services/types';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const Avatar = ({src}: {src: string}) => {
+  return <Image style={styles.avatar} source={{uri: src}} />;
+};
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const Button = ({title, onPress}: ButtonProps) => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <TouchableOpacity
+      style={tw`bg-blue-500 px-4 py-2 rounded-md`}
+      onPress={onPress}>
+      <Text style={tw`text-white text-base font-bold`}>{title}</Text>
+    </TouchableOpacity>
   );
-}
+};
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const {data, error, isLoading} = useGetCharactersQuery();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView>
+      <View style={styles.titleView}>
+        <Text style={[styles.seriesText, tw`text-text`]}>Rick and Morty</Text>
+        <Text style={styles.charText}>Character's</Text>
+      </View>
+      <ScrollView>
+        <View style={tw`p-1 android:pt-1 bg-white dark:bg-black`}>
+          {isLoading && <Text>Loading...</Text>}
+          {error && <Text>Somethig went worn, try again!</Text>}
+          {data?.results.map((item, index) => (
+            <View style={styles.itemGrid}>
+              <View style={tw`flex-row items-center`}>
+                <Avatar src={item.image} />
+                <Text key={index} style={styles.textName}>
+                  {item.name}
+                </Text>
+              </View>
+
+              <View style={styles.detailsView}>
+                <Text key={index} style={styles.textStats}>
+                  Gender: {item.gender}
+                </Text>
+
+                <Text key={index} style={styles.textStats}>
+                  Status: {item.status}
+                </Text>
+              </View>
+
+              <View style={styles.detailsView}>
+                <Text key={index} style={styles.textStats}>
+                  Specie: {item.species}
+                </Text>
+
+                <Text key={index} style={styles.textStats}>
+                  Type: {item.type}
+                </Text>
+              </View>
+
+              <View style={styles.detailsView}>
+                <Text key={index} style={styles.textStats}>
+                  Origin: {item.origin.name}
+                </Text>
+              </View>
+
+              <View style={styles.detailsView}>
+                <Text key={index} style={styles.textStats}>
+                  Location: {item.location.name}
+                </Text>
+              </View>
+              <View style={tw`flex-row justify-end mt-5 mb-4 mr-4`}>
+                <Button title={'Show details'} onPress={() => null} />
+              </View>
+            </View>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
 export default App;
+
+const styles = {
+  titleView: tw.style('flex-row items-center justify-center mt-4 mb-4'),
+  seriesText: tw.style(
+    'text-3xl font-bold text-{29c86b} dark:text-gray-200 mb-10 mr-4',
+  ),
+  charText: tw.style(
+    'text-xl font-bold text-gray-800 dark:text-gray-200 ml-{30}',
+  ),
+
+  itemGrid: tw.style('border-2 border-gray-200 rounded-lg p-2 m-2'),
+  textName: tw.style('text-lg font-bold text-gray-800 dark:text-gray-200'),
+  textStats: tw.style('text-sm text-blue-800 dark:text-blue-200 ml-4'),
+  avatar: tw.style('w-16 h-16 rounded-full mr-4'),
+  avatarView: tw.style('flex-col items-center ml-16'),
+  detailsView: tw.style('flex-row items-center ml-16'),
+};
