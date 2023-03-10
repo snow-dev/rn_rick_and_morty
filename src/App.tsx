@@ -1,27 +1,12 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 import tw from 'twrnc';
 
 import {useGetCharactersQuery} from './services/character';
-import {ButtonProps, DetailScreenNavigationProp} from './services/types';
+import {DetailScreenNavigationProp} from './services/types';
 import {useNavigation} from '@react-navigation/native';
 import ImageEl from './elements/Image';
-
-const Button = ({title, onPress}: ButtonProps) => {
-  return (
-    <TouchableOpacity
-      style={tw`bg-blue-500 px-4 py-2 rounded-md`}
-      onPress={onPress}>
-      <Text style={tw`text-white text-base font-bold`}>{title}</Text>
-    </TouchableOpacity>
-  );
-};
+import TouchableButton from './elements/TouchableButton';
 
 function App(): JSX.Element {
   const navigation = useNavigation<DetailScreenNavigationProp>();
@@ -79,9 +64,10 @@ function App(): JSX.Element {
               </View>
 
               <View style={tw`flex-row justify-end mt-5 mb-4 mr-4`}>
-                <Button
-                  title={'Show details'}
+                <TouchableButton
+                  title={'Show more'}
                   onPress={() => navigation.navigate('Details', {id: item.id})}
+                  variant={'primary'}
                 />
               </View>
             </View>

@@ -88,6 +88,7 @@ function Details(props: DetailScreenProps): JSX.Element {
                 <Text style={styles.key}>Episodes</Text>
                 <TouchableButton
                   title="See episodes"
+                  variant={'secondary'}
                   onPress={() =>
                     props.navigation.navigate('Episodes', {
                       episodes: data.episodes,

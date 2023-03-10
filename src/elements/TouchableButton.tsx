@@ -4,16 +4,21 @@ import tw from '../../lib/tailwind';
 
 export interface TouchableButtonProps {
   title: string;
+  variant: 'primary' | 'secondary';
   onPress: () => void;
 }
 
-const TouchableButton = ({title, onPress}: TouchableButtonProps) => {
+const TouchableButton = ({title, variant, onPress}: TouchableButtonProps) => {
+  const textStyle = variant === 'primary' ? 'primaryText' : 'secondaryText';
+  const touchableHover =
+    variant === 'primary' ? 'touchableHoverPrimary' : 'touchableHoverSecondary';
+
   return (
     <TouchableHighlight
-      underlayColor={styles.touchableHover}
-      style={styles.touchable}
+      underlayColor={styles[touchableHover]}
+      style={styles[variant]}
       onPress={() => onPress()}>
-      <Text style={styles.text}>{title}</Text>
+      <Text style={styles[textStyle]}>{title}</Text>
     </TouchableHighlight>
   );
 };
@@ -24,6 +29,12 @@ const styles = {
   touchable: tw.style(
     'bg-rickPink-200 pl-3 pr-4 rounded-xl text-rickOrange-800',
   ),
-  touchableHover: tw.color('rickPink-200 opacity-50'),
-  text: tw.style('text-rickOrange-600 text-lg  text-right'),
+
+  primary: tw.style('bg-rickGreen-500 p-2 rounded-xl text-color-rickGreen-300'),
+  primaryText: tw.style('text-rickBlueGray-700 text-lg  text-right'),
+  touchableHoverPrimary: tw.color('rickGreen-700 opacity-50 cursor-pointer'),
+
+  secondary: tw.style('bg-rickPink-200 pl-3 pr-4 rounded-xl text-rickBlue-800'),
+  secondaryText: tw.style('text-rickOrange-600 text-lg  text-right'),
+  touchableHoverSecondary: tw.color('rickPink-200 opacity-50 cursor-pointer'),
 };
