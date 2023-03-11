@@ -20,5 +20,5 @@ export default ImageEl;
 
 const styles = {
   avatar: tw.style('w-16 h-16 rounded-full mr-4'),
-  full: tw.style('w-full h-64 rounded-lg'),
+  full: tw.style('w-full h-100 rounded-lg'),
 };

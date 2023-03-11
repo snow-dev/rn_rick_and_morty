@@ -48,7 +48,7 @@ export default Grid;
 const styles = {
   container: tw.style('flex-row items-center justify-center'),
   item: tw.style(' bg-gray-200 rounded-md m-1 p-2 w-1/6'),
-  title: tw.style('text-xl text-center font-bold text-green-500'),
-  selected: tw.style('bg-[#6c3483]'),
+  title: tw.style('text-xl text-center font-bold text-rickBlue-600'),
+  selected: tw.style('bg-rickPink-700 '),
   normal: tw.style('bg-[#f9c2ff]'),
 };

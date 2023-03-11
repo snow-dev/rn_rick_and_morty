@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {DetailScreenProps} from '../services/types';
 import {useGetCharacterByIdQuery} from '../services/character';
 
@@ -7,6 +7,10 @@ import tw from './../../lib/tailwind';
 
 import ImageEl from '../elements/Image';
 import TouchableButton from '../elements/TouchableButton';
+import DetailRow from '../elements/DetailRow';
+import {formatDate} from '../utils/utils';
+import SafeAreaViewContainer from '../elements/SafeAreaContainer';
+import ViewCard from '../elements/ViewCard';
 
 function Details(props: DetailScreenProps): JSX.Element {
   const {data, error, isLoading} = useGetCharacterByIdQuery(
@@ -14,78 +18,39 @@ function Details(props: DetailScreenProps): JSX.Element {
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaViewContainer>
       <View>
         {isLoading && <Text>Loading...</Text>}
         {error && <Text>Something went worn, try again!</Text>}
         {data && (
-          <ScrollView automaticallyAdjustContentInsets={true}>
-            <View style={styles.containerView}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <ViewCard>
               <View style={tw`flex-row items-center`}>
                 <ImageEl variant="full" source={data.image} />
               </View>
 
-              <View style={styles.row}>
-                <Text style={styles.key}>Name:</Text>
-                <Text style={styles.value}>{data.name}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Status:</Text>
-                <Text style={styles.value}>{data.status}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Gender:</Text>
-                <Text style={styles.value}>{data.gender}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Species:</Text>
-                <Text style={styles.value}>{data.species}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Gender:</Text>
-                <Text style={styles.value}>{data.gender}</Text>
-              </View>
-
-              {data.type && (
-                <View style={styles.row}>
-                  <Text style={styles.key}>Type:</Text>
-                  <Text style={styles.value}>{data.type}</Text>
-                </View>
-              )}
-
-              <View style={tw`flex-col`}>
-                <View style={styles.row}>
-                  <Text style={styles.key}>Origin:</Text>
-                  <Text style={styles.value}>{data.origin.name}</Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.key}>URL:</Text>
-                  <Text style={styles.value}>{data.origin.url}</Text>
-                </View>
-              </View>
-
-              <View style={tw`flex-col`}>
-                <View style={styles.row}>
-                  <Text style={styles.key}>Location:</Text>
-                  <Text style={styles.value}>{data.location.name}</Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.key}>URL:</Text>
-                  <Text style={styles.value}>{data.location.url}</Text>
-                </View>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Created:</Text>
-                <Text style={styles.value}>{data.created}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.key}>Episodes</Text>
+              <DetailRow title="Name" value={data.name} />
+              <DetailRow title="Status" value={data.status} />
+              <DetailRow title="Gender" value={data.gender} />
+              <DetailRow title="Species" value={data.species} />
+              <DetailRow title="Status" value={data.status} />
+              {data.type && <DetailRow title="Type" value={data.type} />}
+              <DetailRow title="Origin">
+                <TouchableButton
+                  title="Show Origin"
+                  variant="secondary"
+                  onPress={() => null}
+                />
+              </DetailRow>
+              <DetailRow title={'Location'}>
+                <TouchableButton
+                  title={'Show Location'}
+                  variant={'secondary'}
+                  onPress={() => null}
+                />
+              </DetailRow>
+              <DetailRow title={'Created'} value={formatDate(data.created)} />
+              <DetailRow title={'Episodes'}>
                 <TouchableButton
                   title="See episodes"
                   variant={'secondary'}
@@ -95,23 +60,13 @@ function Details(props: DetailScreenProps): JSX.Element {
                     })
                   }
                 />
-              </View>
-            </View>
+              </DetailRow>
+            </ViewCard>
           </ScrollView>
         )}
       </View>
-    </SafeAreaView>
+    </SafeAreaViewContainer>
   );
 }
 
 export default Details;
-
-const styles = {
-  containerView: tw.style('border-2 border-gray-200 rounded-lg p-2 m-2'),
-  key: tw.style(
-    'text-rickLightBlue-400 font-bold text-xl mr-2 text-left w-25%',
-  ),
-  value: tw.style('text-rickOrange-600 text-lg  text-right'),
-  row: tw.style('flex-row items-space-between mt-2'),
-  column: tw.style('flex-col'),
-};
