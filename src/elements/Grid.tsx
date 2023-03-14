@@ -1,18 +1,8 @@
 import {EpisodeItem} from '../services/types';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import React, {useState} from 'react';
 import tw from './../../lib/tailwind';
-
-export type GridItemProps = {
-  item: EpisodeItem;
-  onPress: () => void;
-  style: any;
-};
-const GridItem = ({item, onPress, style}: GridItemProps): JSX.Element => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <Text style={styles.title}>{item.id}</Text>
-  </TouchableOpacity>
-);
+import GridItem from './GridItem';
 
 export type GridProps = {
   episodes?: EpisodeItem[];
@@ -38,6 +28,7 @@ const Grid = ({episodes}: GridProps) => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         numColumns={5}
+        contentContainerStyle={tw.style('justify-center self-distribute pl-5')}
       />
     </View>
   );
@@ -46,9 +37,8 @@ const Grid = ({episodes}: GridProps) => {
 export default Grid;
 
 const styles = {
-  container: tw.style('flex-row items-center justify-center'),
+  container: tw.style('flex-row items-center justify-center '),
   item: tw.style(' bg-gray-200 rounded-md m-1 p-2 w-1/6'),
   title: tw.style('text-xl text-center font-bold text-rickBlue-600'),
   selected: tw.style('bg-rickPink-700 '),
-  normal: tw.style('bg-[#f9c2ff]'),
 };

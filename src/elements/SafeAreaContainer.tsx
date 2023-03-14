@@ -13,5 +13,5 @@ const SafeAreaViewContainer = ({children}: Props) => {
 export default SafeAreaViewContainer;
 
 const styles = {
-  container: tw.style('bg-rickGreen-500 h-full'),
+  container: tw.style('bg-rickGreen-300 h-full'),
 };

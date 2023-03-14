@@ -49,7 +49,7 @@ export default App;
 
 const styles = {
   header: tw.style('flex-row items-center justify-center p-2 bg-rickGreen-500'),
-  headerImage: tw.style('dark:text-gray-500 w-100% h-100px m-4'),
+  headerImage: tw.style('dark:text-gray-100 w-100% h-100px m-4'),
   card: tw.style(
     'bg-rickGreen-200 border-2 border-gray-200 rounded-lg p-3 ml-3 mr-3 mb-3 flex-row items-center justify-around',
   ),

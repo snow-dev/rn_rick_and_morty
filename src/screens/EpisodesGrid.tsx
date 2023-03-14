@@ -27,5 +27,4 @@ const styles = {
   textSubtitle: tw.style(
     'text-sm text-rickPink-400 dark:text-gray-200 ml-4 mt--4',
   ),
-  card: tw.style('p-2 m-3'),
 };
