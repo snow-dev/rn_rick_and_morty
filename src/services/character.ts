@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {Character, Characters} from './types';
+import {Character, Characters, Episode} from '../utils/types';
 
 export const characterApi = createApi({
   reducerPath: 'characterApi',
@@ -18,7 +18,7 @@ export const characterApi = createApi({
           };
         });
 
-        delete response.episode;
+        // delete response.episode;
 
         return {
           ...response,
@@ -26,10 +26,39 @@ export const characterApi = createApi({
         };
       },
     }),
+    getCharactersByIds: builder.query<Character[], string | number>({
+      query: (id: number) => `character/${id}`,
+    }),
     getCharacters: builder.query<Characters, void>({
       query: () => 'character',
+    }),
+    getEpisode: builder.query<Episode, number>({
+      query: (id: number | null) => `episode/${id}`,
+      transformResponse: (response: Episode): Episode => {
+        const characters = response.characters.map((character: string) => {
+          const id = character.split('/').pop();
+          return {
+            id: parseInt(id!),
+          };
+        });
+
+        return {
+          ...response,
+          characterIds: characters,
+        };
+      },
     }),
   }),
 });
 
-export const {useGetCharacterByIdQuery, useGetCharactersQuery} = characterApi;
+export const {
+  useGetCharacterByIdQuery,
+  useGetCharactersByIdsQuery,
+  useGetCharactersQuery,
+  useGetEpisodeQuery,
+} = characterApi;
+
+// Select character by id
+export const selectCharacters = (state: any) => {
+  return state.characterApi.endpoints.getCharacterById.select()(state);
+};

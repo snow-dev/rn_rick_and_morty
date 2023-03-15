@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import {DetailScreenProps} from '../services/types';
+import {DetailScreenProps} from '../utils/types';
 import {useGetCharacterByIdQuery} from '../services/character';
 
 import tw from './../../lib/tailwind';
@@ -49,7 +49,6 @@ function Details(props: DetailScreenProps): JSX.Element {
                   onPress={() => null}
                 />
               </DetailRow>
-              <DetailRow title={'Created'} value={formatDate(data.created)} />
               <DetailRow title={'Episodes'}>
                 <TouchableButton
                   title="See episodes"
@@ -61,6 +60,7 @@ function Details(props: DetailScreenProps): JSX.Element {
                   }
                 />
               </DetailRow>
+              <DetailRow title={'Created'} value={formatDate(data.created)} />
             </ViewCard>
           </ScrollView>
         )}

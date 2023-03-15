@@ -1,7 +1,7 @@
 import {Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import tw from '../../lib/tailwind';
-import {EpisodeItem} from '../services/types';
+import {EpisodeItem} from '../utils/types';
 
 export type GridItemProps = {
   item: EpisodeItem;

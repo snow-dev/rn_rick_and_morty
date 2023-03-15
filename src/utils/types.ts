@@ -31,8 +31,8 @@ export interface Character {
     url: string;
   };
   image: string;
-  episode?: string[];
-  episodes?: EpisodeItem[];
+  episode: string[];
+  episodes: EpisodeItem[];
   url: string;
   created: string;
 }
@@ -44,9 +44,18 @@ export interface Characters {
   results: Result[];
 }
 
-export interface ButtonProps {
-  title: string;
-  onPress: () => void;
+interface EpisodeIds {
+  id: number;
+}
+export interface Episode {
+  air_date: string;
+  characters: string[];
+  characterIds: EpisodeIds[];
+  created: string;
+  episode: string;
+  id: number;
+  name: string;
+  url: string;
 }
 
 export type RootStackParamList = {
@@ -55,24 +64,40 @@ export type RootStackParamList = {
   Episodes: {
     episodes?: EpisodeItem[];
   };
+  EpisodeDetails: {id: number};
 };
-
+/**
+ * Character Detail types
+ * */
 export type DetailScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Details'
 >;
-
 export type DetailScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'Details'
 >;
 
+/**
+ * Episodes types
+ * */
+export type EpisodesScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Episodes'
+>;
 export type EpisodesScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Episodes'
 >;
 
-export type EpisodesScreenProps = NativeStackScreenProps<
+/**
+ * Episode details types
+ * */
+export type EpisodeDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  'Episodes'
+  'EpisodeDetails'
+>;
+export type EpisodeDetailScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'EpisodeDetails'
 >;

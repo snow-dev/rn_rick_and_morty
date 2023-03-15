@@ -3,7 +3,7 @@ import {Image, ScrollView, Text, View} from 'react-native';
 import tw from '../lib/tailwind';
 
 import {useGetCharactersQuery} from './services/character';
-import {DetailScreenNavigationProp} from './services/types';
+import {DetailScreenNavigationProp} from './utils/types';
 import {useNavigation} from '@react-navigation/native';
 import ImageEl from './elements/Image';
 import TouchableButton from './elements/TouchableButton';
